@@ -84,8 +84,18 @@ for (i in 1:nrow(track_cat)) {
 track_cat<-track_cat[!is.na(track_cat$lon),]
 summary(track_cat[,c("lon","lat")])
 summary(track_cat[abs(track_cat$ele-423)<30,c("lon","lat")])
+
+time_pattern<-"%Y-%m-%d %H:%M:%S"
+track_cat[track_cat$time > strptime("2015-06-25 23:54:10", format=time_pattern),"cat"]<-"Teddy"
+track_cat_clean<-track_cat[abs(track_cat$ele-423)<30,]
+track_cat_teddy<-track_cat[abs(track_cat$ele-423)<30,]
+track_cat_teddy[track_cat_teddy$time > strptime("2015-06-25 23:54:10", format=time_pattern),"cat"]<-"Teddy"
+track_cat_teddy <- track_cat_teddy[track_cat_teddy$cat=="Teddy",]
+# one dot in pregarten at 14.53874 48.35198
+track_cat_teddy<- track_cat_teddy[!track_cat_teddy$lat>48.32,]
+
 write.csv(track_cat, file="../../data/track_cat.csv", row.names=FALSE)
-write.csv(track_cat_clean[track_cat_clean$cat!="Unknown",], file="../../data/track_cat_clean.csv", row.names=FALSE)
+write.csv(track_cat_clean[track_cat_clean$cat!="Unknown",], file="/Volumes/Vero/Repos/tractive_data/track_cat_clean.csv", row.names=FALSE)
 
 col<-c("gray", "blue", "pink", "red", "green")
 mycats<-unique(track_cat$cat)
@@ -100,7 +110,6 @@ print(catMap)
 
 ## map of cleaned cat data
 
-track_cat_clean<-track_cat[abs(track_cat$ele-423)<30,]
 catMap<-leaflet() %>% addTiles()
 
 for (i in 1:length(mycats)) {
@@ -114,3 +123,23 @@ catMap %>%
 addLayersControl( 
   overlayGroups = mycats[2:5], 
   options = layersControlOptions(collapsed = FALSE))
+
+## map of teddy
+
+## map of cleaned cat data
+
+track_cat_teddy<- track_cat_teddy[!(track_cat_teddy$time < strptime("2015-07-24", "%Y-%m-%d") & track_cat_teddy$time > strptime("2015-07-22", "%Y-%m-%d")),]
+
+monthCol<-c("blue", "green", "yellow", "purple", "brown", "orange")
+month<-c("March", "May", "June", "July", "August", "November")
+catMap<-leaflet() %>% addTiles()
+for (i in 1:length(unique(track_cat_teddy$time$mon))) {
+  m<-unique(track_cat_teddy$time$mon)[i]
+  catMap<-catMap %>% addPolylines(track_cat_teddy[track_cat_teddy$time$mon==m,"lon"], track_cat_teddy[track_cat_teddy$time$mon==m,"lat"], col=monthCol[i], group=month[i])   
+}
+catMap
+
+catMap %>%
+  addLayersControl( 
+    overlayGroups = month, 
+    options = layersControlOptions(collapsed = FALSE))
