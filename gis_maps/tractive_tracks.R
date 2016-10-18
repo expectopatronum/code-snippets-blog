@@ -87,12 +87,14 @@ summary(track_cat[abs(track_cat$ele-423)<30,c("lon","lat")])
 
 time_pattern<-"%Y-%m-%d %H:%M:%S"
 track_cat[track_cat$time > strptime("2015-06-25 23:54:10", format=time_pattern),"cat"]<-"Teddy"
-track_cat_clean<-track_cat[abs(track_cat$ele-423)<30,]
+
+#track_cat_clean <- read.csv("../tractive/track_cat_clean.csv")
+track_cat_clean<-track_cat[abs(track_cat$ele-423)<30 & !(track_cat$time > strptime("2015-06-25 23:54:10", format=time_pattern)),]
 track_cat_teddy<-track_cat[abs(track_cat$ele-423)<30,]
 track_cat_teddy[track_cat_teddy$time > strptime("2015-06-25 23:54:10", format=time_pattern),"cat"]<-"Teddy"
 track_cat_teddy <- track_cat_teddy[track_cat_teddy$cat=="Teddy",]
 # one dot in pregarten at 14.53874 48.35198
-track_cat_teddy<- track_cat_teddy[!track_cat_teddy$lat>48.32,]
+# track_cat_teddy<- track_cat_teddy[!track_cat_teddy$lat>48.32,]
 
 write.csv(track_cat, file="../../data/track_cat.csv", row.names=FALSE)
 write.csv(track_cat_clean[track_cat_clean$cat!="Unknown",], file="/Volumes/Vero/Repos/tractive_data/track_cat_clean.csv", row.names=FALSE)
@@ -143,3 +145,8 @@ catMap %>%
   addLayersControl( 
     overlayGroups = month, 
     options = layersControlOptions(collapsed = FALSE))
+
+
+## map per time period
+
+
