@@ -4,3 +4,6 @@
 .Ruserdata
 .httr-oauth
 .DS_Store
+code-snippets-blog.Rproj
+cache/
+figure/
