@@ -1,0 +1,147 @@
+---
+title: "R Notebook"
+author: "Verena Haunschmid"
+output:
+  pdf_document: default
+  html_notebook: default
+---
+
+# Loading data, libraries, ...
+
+```{r}
+library(readr)
+library(dplyr)
+library(magrittr)
+library(lime)
+library(caret)
+```
+
+```{r}
+path_train <- "C:/Users/veroa/OneDrive/PhD/Data/kaggle-house-prices/train.csv"
+
+data_train <- read_csv(path_train)
+colnames(data_train) <- tolower(colnames(data_train))
+data_train <- data_train %>% mutate_if(is.character, factor)
+```
+
+Split the data into training and test data. I also converted the tibble to a data.frame because at the beginning I had some issues and an [answer on stackoverflow](https://stackoverflow.com/questions/43018879/wrong-model-type-for-classification-in-regression-problems-in-r-caret) can state that caret gets confused with the class `tibble`.
+
+```{r}
+set.seed(0987)
+idx <- sample(1:nrow(data_train), 0.8 * nrow(data_train), replace = FALSE)
+x_train <- data.frame(data_train[idx, ]) 
+x_test <- data.frame(data_train[-idx, ])
+```
+
+Then I prepared the features I wanted to use. I removed `mssubclass` and `mszoning` since I couldn't figure out what they were. And I also removed all features that had NA's in them. There are better ways to deal with NA's but I wanted to keep it as simple as possible.
+
+```{r}
+features_na <- colnames(x_train)[unique(which(is.na(x_train), arr.ind = TRUE)[, 2])]
+features <- colnames(x_train[,!(colnames(x_train) %in% c("id", "mssubclass", "mszoning", "saleprice"))])
+features <- features[!(features %in% features_na)]
+target <- "saleprice"
+```
+
+This left me with
+
+```{r}
+length(features)
+```
+
+features.
+
+```{r, eval=FALSE}
+rf_model <- train(x_train[,features], x_train[,target], method='rf')
+```
+
+To save some time I've stored the model on disk:
+```{r}
+# load model, train idx
+load("rf_model.RData")
+```
+
+# Model performance
+
+```{r}
+preds <- predict(rf_model, x_test)
+
+ggplot(data.frame("saleprice"=x_test$saleprice, "pred"=preds), aes(saleprice, pred)) + 
+  geom_point() + 
+  geom_abline(slope=1, intercept=0) +
+  scale_y_continuous(labels = scales::comma) +
+  scale_x_continuous(labels = scales::comma)
+
+```
+
+## Residual plot
+
+This plot shows that the residuals are not uniformly distributed and that the model performs worse on more expensive houses.
+
+```{r}
+ggplot(data.frame("saleprice"=x_test$saleprice, "residual"=x_test$saleprice - preds),
+       aes(saleprice, residual)) + 
+  geom_point() + 
+  geom_abline(slope=0, intercept=0) +
+  scale_y_continuous(labels = scales::comma) +
+  scale_x_continuous(labels = scales::comma)
+```
+
+# Building an explainer
+
+For building an explainer you pass the **training data** and the model to the function `lime()`.
+
+```{r}
+explainer <- lime(x_train, rf_model)
+```
+
+
+# Explaining selecting samples
+```{r}
+x_expl <- x_test[1:8,]
+explanation <- explain(x_expl, explainer, n_features = 2)
+```
+
+```{r}
+head(explanation)
+```
+
+
+# Visualising the model explanations
+
+```{r}
+plot_features(explanation)
+```
+
+# Using scaled data
+
+```{r}
+x_train_sc <- x_train
+num_feat <- sapply(x_train_sc, is.numeric)
+num_feat[names(num_feat) == "saleprice"] <- FALSE
+
+sc_center <- apply(x_train_sc[,num_feat], 2, mean)
+sc_sd <- apply(x_train_sc[,num_feat], 2, sd)
+
+x_train_sc[,num_feat] <- scale(x_train_sc[,num_feat])
+
+x_test_sc <- x_test
+x_test_sc[,num_feat] <- scale(x_test_sc[,num_feat], center = sc_center, scale = sc_sd)
+```
+
+```{r, eval=FALSE}
+rf_model_sc <- train(x_train_sc[,features], x_train_sc[,target], method='rf')
+```
+
+```{r}
+load('rf_model_sc.RData')
+```
+
+```{r}
+explainer_sc <- lime(x_train_sc, rf_model_sc)
+x_expl_sc <- x_test_sc[1:8,]
+
+explanation_sc <- explain(x_expl_sc, explainer_sc, n_features = 3)
+
+plot_features(explanation_sc)
+```
+
