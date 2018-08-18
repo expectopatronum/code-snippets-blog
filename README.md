@@ -15,6 +15,12 @@ Please be aware that some of the blog posts and code snippets in `R` are already
 
 ### 201503_infographic
 
+[Info graphic for R plotting parameters](https://www.katzentante.at/info-graphic-for-r-plotting-parameters/)
+
+### 201504_basic_handling_spatial_data
+
+[Basic handling of spatial data (like GPS coordinates)](https://www.katzentante.at/basic-computations-with-spatial-data-like-gps-coordinates/)
+
 ### 201504_choose_correct_plot
 
 [How to choose the correct plot for your data](https://www.katzentante.at/how-to-choose-the-correct-plot-for-your-data/)
