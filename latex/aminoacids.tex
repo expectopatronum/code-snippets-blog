@@ -1,0 +1,61 @@
+
+%chemical symbols
+\newcommand{\glycin}{\footnotesize\chemfig{C([:0]-C(=[:30]O)(-[:-30]O^{-}))([:180]-H_{3} N^{+})([:-90]-H)([:90]-H)}}
+%\newcommand{\proline}{\footnotesize\chemfig{C([:0]-C(=[:30]O)(-[:-30]O^{-}))([:-90]-H)*5([:135]-CH_2-CH_2-H_2C-H_{2} N^{+}-)}}
+\newcommand{\alanine}{\footnotesize\chemfig{C([:0]-C(=[:30]O)(-[:-30]O^{-}))([:180]-H_{3}
+    N^{+})([:90]-CH_{3})([:-90]-H)}}
+\newcommand{\valin}{\footnotesize\chemfig{C([:0]-C(=[:30]O)(-[:-30]O^{-}))([:180]-H_{3} N^{+})([:90]-CH([:120]-CH_{3})([:60]-CH_{3}))([:-90]-H)}}
+\newcommand{\leucin}{\footnotesize\chemfig{C([:0]-C(=[:30]O)(-[:-30]O^{-}))([:180]-H_{3}
+    N^{+})([:-90]-H)([:90]-CH_{2}([:90]-CH([:120]-CH_{3})([:60]-CH_{3})))}}
+\newcommand{\isoleucin}{\footnotesize\chemfig{C([:0]-C(=[:30]O)(-[:-30]O^{-}))([:180]-H_{3}
+    N^{+})([:-90]-H)([:90]-CH ([:90]-CH_{2}([:90]-CH_3))
+    ([:180]-H_{3}C))}}
+\newcommand{\methionin}{\footnotesize\chemfig{C([:0]-C(=[:30]O)(-[:-30]O^{-}))([:180]-H_{3}
+    N^{+})([:-90]-H)([:90]-CH_{2}([:90]-CH_{2}([:90]-S ([:90]-CH_{3}))))}}
+\newcommand{\phenylalanin}{\footnotesize\chemfig{C([:0]-C(=[:30]O)(-[:-30]O^{-}))([:180]-H_{3}
+    N^{+})([:-90]-H)([:90]-CH_{2}([:90]-*6(-=-=-=)))}}
+\newcommand{\tryptophan}{\footnotesize\chemfig{C([:0]-C(=[:30]O)(-[:-30]O^{-}))([:180]-H_{3}
+    N^{+})([:-90]-H)([:90]-CH_{2}([:90]-([:60]*6(?=-NH-*6([:120]-=-=-)=?))))}}
+\newcommand{\serin}{\footnotesize\chemfig{C([:0]-C(=[:30]O)(-[:-30]O^{-}))([:180]-H_{3}
+    N^{+})([:-90]-H)([:90]-CH_{2}([:90]-OH))}}
+\newcommand{\threonin}{\footnotesize\chemfig{C([:0]-C(=[:30]O)(-[:-30]O^{-}))([:180]-H_{3}
+    N^{+})([:-90]-H)([:90]-CH_{2}([:90]-CH([:120]-OH)([:60]-CH_{3})))}}
+\newcommand{\cystein}{\footnotesize\chemfig{C([:0]-C(=[:30]O)(-[:-30]O^{-}))([:180]-H_{3}
+    N^{+})([:-90]-H)([:90]-CH_{2}([:90]-CH_{2}([:90]-SH)))}}
+\newcommand{\tyrosin}{\footnotesize\chemfig{C([:0]-C(=[:30]O)(-[:-30]O^{-}))([:180]-H_{3}
+    N^{+})([:-90]-H)([:90]-CH_{2}([:90]-*6(-=-([:90]-OH)=-=)))}}
+\newcommand{\asparagin}{\footnotesize\chemfig{C([:0]-C(=[:30]O)(-[:-30]O^{-}))([:180]-H_{3}
+    N^{+})([:-90]-H)([:90]-CH_{2}([:90]-C([:120]-NH_{2})([:60]=O)))}}
+\newcommand{\glutamin}{\footnotesize\chemfig{C([:0]-C(=[:30]O)(-[:-30]O^{-}))([:180]-H_{3}
+    N^{+})([:-90]-H)([:90]-CH_{2}([:90]-CH_{2}([:90]-C([:120]-NH_{2})([:60]=O))))}}
+\newcommand{\asparaginacid}{\footnotesize\chemfig{C([:0]-C(=[:30]O)(-[:-30]O^{-}))([:180]-H_{3}
+    N^{+})([:-90]-H)([:90]-CH_{2}([:90]-C([:120]-O^{-})([:60]=O)))}}
+\newcommand{\glutaminacid}{\footnotesize\chemfig{C([:0]-C(=[:30]O)(-[:-30]O^{-}))([:180]-H_{3}
+    N^{+})([:-90]-H)([:90]-CH_{2}([:90]-CH_{2}([:90]-C([:120]-O^{-})([:60]=O))))}}
+\newcommand{\lysin}{\footnotesize\chemfig{C([:0]-C(=[:30]O)(-[:-30]O^{-}))([:180]-H_{3}
+    N^{+})([:-90]-H)([:90]-CH_{2}([:90]-CH_{2}([:90]-CH_{2}([:90]-CH_{2}([:90]-NH_{3}^{+})))))}}
+\newcommand{\arginin}{\footnotesize\chemfig{C([:0]-C(=[:30]O)(-[:-30]O^{-}))([:180]-H_{3}
+    N^{+})([:-90]-H)([:90]-CH_{2}([:90]-CH_{2}([:90]-CH_{2}([:90]-NH([:90]-C([:90]-NH_{2})([:0]=NH_2^{+}))))))}}
+%\newcommand{\histidin}{\footnotesize\chemfig{C([:0]-C(=[:30]O)(-[:-30]O^{-}))([:180]-H_{3}N^{+})([:-90]-H)([:90]-CH_{2}([:90]-([:60]*5(-NH-=NH^{+}-=))))}}
+
+\newcommand{\proline}{\footnotesize
+\chemfig{
+  H-[2]
+  C
+  (-C(=[:45]O)(-[:-45]O|^{-}))
+ *5([:135]-C|H_2-\chemabove{C}{H\mathrlap{_2}}-H_2|C-[,,,2]H_{2}|\chemabove{N}{\quad\scriptstyle+}-)
+}
+}
+
+\newcommand{\histidin}{\footnotesize
+\chemfig{
+  H_{3}\chemabove{N}{\quad\scriptstyle+}-
+  C
+   ([:-90]-H)
+   ([:90]
+     -CH_{2}-
+     ([:90]*5(-NH-[,,1]=\chemabove{\chemabove{N}{H}}{\hskip1.5em\scriptstyle+}-=))
+   )
+  -C(=[:45]O)(-[:-45]O|^{-})
+}
+}
